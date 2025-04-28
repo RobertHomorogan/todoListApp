@@ -1,15 +1,24 @@
-
-
-todos = []
-
 while True:
     user_action = input("Type add or show, edit, complete or exit: ")
     user_action = user_action.strip() #removes all speces
     match user_action:
         case "add":
-            todo = input("Enter a todo: ")
+            todo = input("Enter a todo: ") + "\n"
+
+            file = open("todos.txt", "r") #"r" read the file
+            todos = file.readlines()
+            file.close()
+
             todos.append(todo)
+
+            file = open("todos.txt", "w")  #"w" writes on the files
+            file.writelines(todos)
+            file.close()
         case "show":
+            file = open("todos.txt", "r")
+            todos = file.readlines()
+            file.close()
+
             for index, item in enumerate(todos): #enumerate function
                 print(f"{index + 1}-{item}")
         case "edit":

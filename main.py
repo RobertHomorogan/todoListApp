@@ -5,20 +5,18 @@ while True:
         case "add":
             todo = input("Enter a todo: ") + "\n"
 
-            file = open("todos.txt", "r") #"r" read the file
-            todos = file.readlines()
-            file.close()
+            with open("todos.txt", "r") as file:
+                todos = file.readlines()
 
             todos.append(todo)
 
-            file = open("todos.txt", "w")  #"w" writes on the files
-            file.writelines(todos)
-            file.close()
+            with open("todos.txt", "w") as file:
+                file.writelines(todos)
 
         case "show":
-            file = open("todos.txt", "r")
-            todos = file.readlines()
-            file.close()
+
+            with open("todos.txt", "r") as file:
+                todos = file.readlines()
 
             for index, item in enumerate(todos): #enumerate function
                 item = item.strip("\n")   # remove the spaces in between
@@ -29,12 +27,31 @@ while True:
             print("Edit selected")
             number = int(input("Number of todos to edit: ")) #trabsforming str to int
             number = number - 1
+
+            with open("todos.txt", "r") as file:
+                todos = file.readlines()
+
             new_todo = input("Enter new todo: ")
-            todos[number] = new_todo
+            todos[number] = new_todo + "\n"
+
+            with open("todos.txt", "w") as file:
+                file.writelines(todos)
 
         case"complete":
             number = int(input("Number of todos to complete: "))
-            todos.pop(number - 1)
+
+            with open("todos.txt", "r") as file:
+                todos = file.readlines()
+
+            index = number - 1
+            todo_to_remove = todos[index].strip("\n")
+            todos.pop(index)
+
+            with open("todos.txt", "w") as file:
+                file.writelines(todos)
+
+            message = f"Todo '{todo_to_remove}' was removed from the list."
+            print(message)
 
 
         case "exit":

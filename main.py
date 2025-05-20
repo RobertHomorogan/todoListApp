@@ -1,7 +1,12 @@
-def get_todos():
-    with open("todos.txt", "r") as file_local:
+def get_todos(filepath):
+    with open(filepath, "r") as file_local:
         todos_local = file_local.readlines()
     return todos_local
+
+def write_todos(filepath, todos_arg):
+    with open(filepath, "w") as file:
+        file.writelines(todos_arg)
+
 
 while True:
     user_action = input("Type add or show, edit, complete or exit: ")
@@ -10,16 +15,15 @@ while True:
     if user_action.startswith("add"):
         todo = user_action[4:]  #takes the todo from index 4 after the ''add ''
 
-        todos = get_todos()
+        todos = get_todos("todos.txt")
 
         todos.append(todo + "\n")
 
-        with open("todos.txt", "w") as file:
-            file.writelines(todos)
+        write_todos("todos.txt", todos)
 
     elif user_action.startswith("show"):
 
-        todos = get_todos()
+        todos = get_todos("todos.txt")
 
         for index, item in enumerate(todos): #enumerate function
             item = item.strip("\n")   # remove the spaces in between
@@ -33,13 +37,12 @@ while True:
 
             number = number - 1
 
-            todo = get_todos()
+            todo = get_todos("todos.txt")
 
             new_todo = input("Enter new todo: ")
             todos[number] = new_todo + "\n"
 
-            with open("todos.txt", "w") as file:
-                file.writelines(todos)
+            write_todos("todos.txt", todos)
 
         except ValueError:
             print("Your command is not valid")
@@ -49,14 +52,13 @@ while True:
         try:
             number = int(user_action[9:])
 
-            todos = get_todos()
+            todos = get_todos("todos.txt")
 
             index = number - 1
             todo_to_remove = todos[index].strip("\n")
             todos.pop(index)
 
-            with open("todos.txt", "w") as file:
-                file.writelines(todos)
+            write_todos("todos.txt", todos)
 
             message = f"Todo '{todo_to_remove}' was removed from the list."
             print(message)

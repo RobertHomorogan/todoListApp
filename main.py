@@ -1,3 +1,8 @@
+def get_todos():
+    with open("todos.txt", "r") as file_local:
+        todos_local = file_local.readlines()
+    return todos_local
+
 while True:
     user_action = input("Type add or show, edit, complete or exit: ")
     user_action = user_action.strip() #removes all spaces
@@ -5,8 +10,7 @@ while True:
     if user_action.startswith("add"):
         todo = user_action[4:]  #takes the todo from index 4 after the ''add ''
 
-        with open("todos.txt", "r") as file:
-            todos = file.readlines()
+        todos = get_todos()
 
         todos.append(todo + "\n")
 
@@ -15,8 +19,7 @@ while True:
 
     elif user_action.startswith("show"):
 
-        with open("todos.txt", "r") as file:
-            todos = file.readlines()
+        todos = get_todos()
 
         for index, item in enumerate(todos): #enumerate function
             item = item.strip("\n")   # remove the spaces in between
@@ -30,8 +33,7 @@ while True:
 
             number = number - 1
 
-            with open("todos.txt", "r") as file:
-                todos = file.readlines()
+            todo = get_todos()
 
             new_todo = input("Enter new todo: ")
             todos[number] = new_todo + "\n"
@@ -47,8 +49,7 @@ while True:
         try:
             number = int(user_action[9:])
 
-            with open("todos.txt", "r") as file:
-                todos = file.readlines()
+            todos = get_todos()
 
             index = number - 1
             todo_to_remove = todos[index].strip("\n")
